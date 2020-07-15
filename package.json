@@ -2,29 +2,28 @@
   "name": "react-native-quick-controls",
   "title": "React Native Quick Controls",
   "version": "1.0.0",
-  "description": "TODO",
+  "description": "React Native Quick Controls",
   "main": "index.js",
   "files": [
     "README.md",
     "android",
     "index.js",
-    "ios",
-    "react-native-quick-controls.podspec"
+    "ios"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/github_account/react-native-quick-controls.git",
-    "baseUrl": "https://github.com/github_account/react-native-quick-controls"
+    "url": "git+https://github.com/LkyYuen/react-native-quick-controls.git",
+    "baseUrl": "https://github.com/LkyYuen/react-native-quick-controls"
   },
   "keywords": [
     "react-native"
   ],
   "author": {
-    "name": "Your Name",
-    "email": "yourname@email.com"
+    "name": "LkyYuen",
+    "email": "lkylau96@gmail.com"
   },
   "license": "MIT",
   "licenseFilename": "LICENSE",
@@ -36,5 +35,9 @@
   "devDependencies": {
     "react": "^16.9.0",
     "react-native": "^0.61.5"
+  },
+  "dependencies": {
+    "react-native-orientation-locker": "^1.1.8",
+    "react-native-reanimated": "^1.9.0"
   }
 }
