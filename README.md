@@ -11,7 +11,7 @@
 ## Usage
 ```javascript
 import React from "react"
-import { View, Image } from "react-native"
+import { View, Text, Image } from "react-native"
 import QuickControls from 'react-native-quick-controls';
 
 const QuickControlsApp = props => {
@@ -21,6 +21,11 @@ const QuickControlsApp = props => {
             duration={1000}
             portraitEndPoint={0.7}
             landscapeEndPoint={0.5}
+            children={
+                <View style={{ flex: 1 }}>
+                    <Text>This is a children component</Text>
+                </View>
+            }
             parent={
                 <Image 
                     style = {{ alignSelf: 'center', width: 25, height: 50, resizeMode: 'contain' }}

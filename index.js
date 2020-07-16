@@ -131,6 +131,7 @@ const QuickControl = props => {
 
     return (
         <View style={{ flex: 1 }} onLayout={e => detectOrientation(e)}>
+            {props.children}
             {
                 <Animated.View
                     {...panResponder.panHandlers}
