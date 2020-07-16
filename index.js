@@ -123,14 +123,16 @@ const QuickControl = props => {
     
         if (width > height) {
             setScreenLayout("landscape");
+            props.viewMode("landscape");
         }
         else {
             setScreenLayout("portrait");
+            props.viewMode("portrait");
         }
     };
 
     return (
-        <View style={{ flex: 1 }} onLayout={e => detectOrientation(e)}>
+        <View style={[props.commonStyle, screenLayout === "landscape" ? props.landscapeStyle : props.portraitStyle]} onLayout={e => detectOrientation(e)}>
             {props.children}
             {
                 <Animated.View

@@ -18,7 +18,9 @@ const QuickControlsApp = props => {
 
     return (
         <QuickControls
-            duration={1000}
+            duration={300}
+            landscapeStyle={{ marginTop: 20 }}
+            viewMode={val => console.log(val)}
             portraitEndPoint={0.7}
             landscapeEndPoint={0.5}
             children={
@@ -66,7 +68,11 @@ third_child           | component | Yes      |                           | The t
 first_action          | Action    | Yes      |                           | The action perform after third child clicked
 duration              | milliseconds      | No       | 500                      | The duration of animation
 portraitEndPoint      | double      | No       | 0.7                     | The limit of the menu can reached in portrait mode
-landscapeEndPoint      | double      | No       | 0.5                     | The limit of the menu can reached in landscape mode
+landscapeEndPoint     | double      | No       | 0.5                     | The limit of the menu can reached in landscape mode
+viewMode              | Function    | No       |                         | Callback function for screen mode changed
+commonStyle           | [style](https://reactnative.dev/docs/text-style-props) | No      |                           | Common style for both portrait and landscape mode
+portraitStyle           | [style](https://reactnative.dev/docs/text-style-props) | No      |                           | Style for portrait mode
+landscapeStyle           | [style](https://reactnative.dev/docs/text-style-props) | No      |                           | Style for landscape mode
 
 ---
 
