@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { View, Animated, Dimensions, Image, TouchableOpacity, PanResponder, Platform } from "react-native"
 import { Easing } from "react-native-reanimated";
 import Orientation from 'react-native-orientation-locker';
@@ -27,14 +27,14 @@ const QuickControl = props => {
 
     let _val = { x: 0, y: 0 };
     const pan = useRef(new Animated.ValueXY()).current;
-    pan.addListener((value) => _val = value);
+    // pan.addListener((value) => _val = value);
     const [translateAnimatedValue, setTranslateAnimatedValue] = useState(new Animated.Value(0));
     const [rotateAnimatedValue, setRotateAnimatedValue] = useState(new Animated.Value(0));
     const [scaleAnimatedValue, setScaleAnimatedValue] = useState(new Animated.Value(0));
     const [closeButtonExpanded, setCloseButtonExpanded] = useState(false);
 
-    const panResponder = useRef(
-        PanResponder.create({
+    const panResponder = useMemo(
+        () => PanResponder.create({
             onMoveShouldSetPanResponder: (_, gestureState) => {
                 const { dx, dy } = gestureState
                 return (dx > 2 || dx < -2 || dy > 2 || dy < -2)
@@ -43,17 +43,28 @@ const QuickControl = props => {
                 const { dx, dy } = gestureState
                 return (dx > 2 || dx < -2 || dy > 2 || dy < -2)
             },
-            onPanResponderMove: Animated.event([
-                null, { dx: 0, dy: pan.y }
-            ], {
-                useNativeDriver: false
-            }),
+            onMoveShouldSetPanResponder: () => true,
             onPanResponderGrant: () => {
-                pan.setOffset({ x: _val.x, y: _val.y });
-                pan.setValue({ x: 0, y: 0 });
+                pan.setOffset({
+                    x: pan.x._value,
+                    y: pan.y._value
+                });
+                pan.setValue({ x: 0, y: 0 })
             },
-        })
-    ).current;
+            onPanResponderMove: Animated.event(
+                [
+                    null,
+                    { dx: 0, dy: pan.y }
+                ], 
+                {
+                    useNativeDriver: false
+                }
+            ),
+            onPanResponderRelease: () => {
+                pan.flattenOffset();
+            }
+        }),
+    []);
 
     useEffect(() => {
         Animated.timing(
@@ -98,7 +109,7 @@ const QuickControl = props => {
             setOutputRange([screenHeight * 0.1 + topSpacing, screenHeight * checkLandscapeScrollLimit(props.landscapeEndPoint)])
         }
         _val = { x: 0, y: 0 };
-        pan.setOffset({ x: _val.x, y: _val.y });
+        pan.setOffset({ x: 0, y: 0 });
         Animated.spring(						
             pan,				 
             {
@@ -123,13 +134,17 @@ const QuickControl = props => {
     
         if (width > height) {
             setScreenLayout("landscape");
-            props.viewMode("landscape");
+            props.viewMode != undefined && props.viewMode("landscape");
         }
         else {
             setScreenLayout("portrait");
-            props.viewMode("portrait");
+            props.viewMode != undefined && props.viewMode("portrait");
         }
     };
+
+    const handlePressReleased = () => {
+        setCloseButtonExpanded(false)
+    }
 
     return (
         <View style={[props.commonStyle, screenLayout === "landscape" ? props.landscapeStyle : props.portraitStyle]} onLayout={e => detectOrientation(e)}>
@@ -203,12 +218,10 @@ const QuickControl = props => {
                     }}>
                         <TouchableOpacity
                             style = {{ padding: 0 }}
-                            onPress = {props.first_action}>
+                            onPress = {props.first_action}
+                            onPressOut={handlePressReleased}
+                        >
                             {props.first_child}
-                            {/* <Image 
-                                style = {{ alignSelf: 'center', width: 36, height: 36, resizeMode: 'contain' }}
-                                source = { props.actions[0].local ? props.actions[0].image : { uri: props.actions[0].image } }
-                            /> */}
                         </TouchableOpacity>
                     </Animated.View>
 
@@ -243,12 +256,10 @@ const QuickControl = props => {
                     }}>
                         <TouchableOpacity
                             style = {{ padding: 0 }}
-                            onPress = {props.second_action}>
-                                {props.second_child}
-                            {/* <Image 
-                                style = {{ alignSelf: 'center', width: 36, height: 36, resizeMode: 'contain' }}
-                                source = { props.actions[1].local ? props.actions[1].image : { uri: props.actions[1].image } }
-                            /> */}
+                            onPress = {props.second_action}
+                            onPressOut={handlePressReleased}
+                        >
+                            {props.second_child}
                         </TouchableOpacity>
                     </Animated.View>
 
@@ -288,15 +299,12 @@ const QuickControl = props => {
                     }}>
                         <TouchableOpacity
                             style = {{ padding: 0 }}
-                            onPress = {props.third_action}>
+                            onPress = {props.third_action}
+                            onPressOut={handlePressReleased}
+                        >
                             {props.third_child}
-                            {/* <Image 
-                                style = {{ alignSelf: 'center', width: 36, height: 36, resizeMode: 'contain' }}
-                                source = { props.actions[2].local ? props.actions[2].image : { uri: props.actions[2].image } }
-                            /> */}
                         </TouchableOpacity>
                     </Animated.View>
-
                 </Animated.View>
             }
             {
