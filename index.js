@@ -6,14 +6,14 @@ import Orientation from 'react-native-orientation-locker';
 const QuickControl = props => {
 
     const checkPortraitScrollLimit = (val = 0.7) => {
-        if (val > 1) {
+        if (val > 1 || val < 0) {
             return 0.7
         }
         return val
     }
 
     const checkLandscapeScrollLimit = (val = 0.5) => {
-        if (val > 1) {
+        if (val > 1 || val < 0) {
             return 0.5
         }
         return val
