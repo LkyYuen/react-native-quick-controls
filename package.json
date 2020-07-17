@@ -1,14 +1,12 @@
 {
   "name": "react-native-quick-controls",
   "title": "React Native Quick Controls",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "description": "React Native Quick Controls",
   "main": "index.js",
   "files": [
     "README.md",
-    "android",
-    "index.js",
-    "ios"
+    "index.js"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

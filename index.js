@@ -27,7 +27,7 @@ const QuickControl = props => {
 
     let _val = { x: 0, y: 0 };
     const pan = useRef(new Animated.ValueXY()).current;
-    pan.addListener((value) => _val = value);
+    // pan.addListener((value) => _val = value);
     const [translateAnimatedValue, setTranslateAnimatedValue] = useState(new Animated.Value(0));
     const [rotateAnimatedValue, setRotateAnimatedValue] = useState(new Animated.Value(0));
     const [scaleAnimatedValue, setScaleAnimatedValue] = useState(new Animated.Value(0));
@@ -43,16 +43,27 @@ const QuickControl = props => {
                 const { dx, dy } = gestureState
                 return (dx > 2 || dx < -2 || dy > 2 || dy < -2)
             },
-            onPanResponderMove: Animated.event([
-                null, { dx: 0, dy: pan.y }
-            ], {
-                useNativeDriver: false
-            }),
+            onMoveShouldSetPanResponder: () => true,
             onPanResponderGrant: () => {
-                pan.setOffset({ x: _val.x, y: _val.y });
-                pan.setValue({ x: 0, y: 0 });
+                pan.setOffset({
+                    x: pan.x._value,
+                    y: pan.y._value
+                });
+                pan.setValue({ x: 0, y: 0 })
             },
-        })
+            onPanResponderMove: Animated.event(
+                [
+                    null,
+                    { dx: 0, dy: pan.y }
+                ], 
+                {
+                    useNativeDriver: false
+                }
+            ),
+            onPanResponderRelease: () => {
+                pan.flattenOffset();
+            }
+        }),
     ).current;
 
     useEffect(() => {
@@ -98,7 +109,7 @@ const QuickControl = props => {
             setOutputRange([screenHeight * 0.1 + topSpacing, screenHeight * checkLandscapeScrollLimit(props.landscapeEndPoint)])
         }
         _val = { x: 0, y: 0 };
-        pan.setOffset({ x: _val.x, y: _val.y });
+        pan.setOffset({ x: 0, y: 0 });
         Animated.spring(						
             pan,				 
             {
