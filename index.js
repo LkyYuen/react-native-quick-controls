@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
-import { View, Animated, Dimensions, Image, TouchableOpacity, PanResponder, Platform } from "react-native"
+import { View, Animated, Dimensions, Image, TouchableOpacity, PanResponder, Platform, StatusBar } from "react-native"
 import { Easing } from "react-native-reanimated";
 import Orientation from 'react-native-orientation-locker';
 
@@ -143,6 +143,7 @@ const QuickControl = props => {
     };
 
     const handlePressReleased = () => {
+        StatusBar.setHidden(false, "slide")
         setCloseButtonExpanded(false)
     }
 
@@ -218,7 +219,7 @@ const QuickControl = props => {
                     }}>
                         <TouchableOpacity
                             style = {{ padding: 0 }}
-                            onPress = {props.first_action}
+                            onPressIn = {props.first_action}
                             onPressOut={handlePressReleased}
                         >
                             {props.first_child}
@@ -256,7 +257,7 @@ const QuickControl = props => {
                     }}>
                         <TouchableOpacity
                             style = {{ padding: 0 }}
-                            onPress = {props.second_action}
+                            onPressIn = {props.second_action}
                             onPressOut={handlePressReleased}
                         >
                             {props.second_child}
@@ -299,7 +300,7 @@ const QuickControl = props => {
                     }}>
                         <TouchableOpacity
                             style = {{ padding: 0 }}
-                            onPress = {props.third_action}
+                            onPressIn = {props.third_action}
                             onPressOut={handlePressReleased}
                         >
                             {props.third_child}
