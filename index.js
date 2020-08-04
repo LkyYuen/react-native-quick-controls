@@ -178,7 +178,7 @@ const QuickControl = props => {
                             width: 25, 
                             height: 50,
                         }}
-                        onPressIn={() => setCloseButtonExpanded(!closeButtonExpanded)}
+                        onPress={() => setCloseButtonExpanded(!closeButtonExpanded)}
                     >
                         {props.parent}
                     </TouchableOpacity>
