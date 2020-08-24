@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { View, Animated, Dimensions, Image, TouchableOpacity, PanResponder, Platform, StatusBar } from "react-native"
+import { Button, Text } from "native-base"
 import { Easing } from "react-native-reanimated";
 import Orientation from 'react-native-orientation-locker';
 
@@ -35,6 +36,7 @@ const QuickControl = props => {
 
     const panResponder = useMemo(
         () => PanResponder.create({
+            onStartShouldSetPanResponder: () => false,
             onMoveShouldSetPanResponder: (_, gestureState) => {
                 const { dx, dy } = gestureState
                 return (dx > 2 || dx < -2 || dy > 2 || dy < -2)
@@ -43,7 +45,6 @@ const QuickControl = props => {
                 const { dx, dy } = gestureState
                 return (dx > 2 || dx < -2 || dy > 2 || dy < -2)
             },
-            onMoveShouldSetPanResponder: () => true,
             onPanResponderGrant: () => {
                 pan.setOffset({
                     x: pan.x._value,
@@ -147,6 +148,10 @@ const QuickControl = props => {
         setCloseButtonExpanded(false)
     }
 
+    const triggerButton = () => {
+        setCloseButtonExpanded(!closeButtonExpanded)
+    }
+
     return (
         <View style={[props.commonStyle, screenLayout === "landscape" ? props.landscapeStyle : props.portraitStyle]} onLayout={e => detectOrientation(e)}>
             {props.children}
@@ -172,7 +177,21 @@ const QuickControl = props => {
                         }],
                     }}
                 >
-                    <TouchableOpacity
+                    <Button
+                        transparent
+                        large
+                        style = {{ 
+                            padding: 0,
+                            width: 25, 
+                            height: 50,
+                        }}
+                        onPress={triggerButton}
+                        // onPress={() => setCloseButtonExpanded(!closeButtonExpanded)}
+                    >
+                        {props.parent}
+                    </Button>
+
+                    {/* <TouchableOpacity
                         style = {{ 
                             padding: 0, 
                             width: 25, 
@@ -181,7 +200,7 @@ const QuickControl = props => {
                         onPress={() => setCloseButtonExpanded(!closeButtonExpanded)}
                     >
                         {props.parent}
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     
                     <Animated.View style={{
                         width: 36,
