@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { View, Animated, Dimensions, Image, TouchableOpacity, PanResponder, Platform, StatusBar } from "react-native"
-import { Button, Text } from "native-base"
+import { Button } from "native-base"
 import { Easing } from "react-native-reanimated";
 import Orientation from 'react-native-orientation-locker';
 
@@ -159,12 +159,12 @@ const QuickControl = props => {
                 <Animated.View
                     {...panResponder.panHandlers}
                     style={{
-                        width: 80,
-                        height: 120,
+                        width: closeButtonExpanded ? 80 : 25,
+                        height: 110,
                         position: 'absolute',
                         top: topSpacing + 40,
                         bottom: 100,
-                        right: -1,
+                        right: -2,
                         zIndex: 1,
                         justifyContent: 'center',
                         alignItems: 'flex-end',
@@ -179,34 +179,22 @@ const QuickControl = props => {
                 >
                     <Button
                         transparent
-                        large
+                        small
                         style = {{ 
                             padding: 0,
                             width: 25, 
-                            height: 50,
+                            height: 80,
                         }}
                         onPress={triggerButton}
-                        // onPress={() => setCloseButtonExpanded(!closeButtonExpanded)}
                     >
                         {props.parent}
                     </Button>
 
-                    {/* <TouchableOpacity
-                        style = {{ 
-                            padding: 0, 
-                            width: 25, 
-                            height: 50,
-                        }}
-                        onPress={() => setCloseButtonExpanded(!closeButtonExpanded)}
-                    >
-                        {props.parent}
-                    </TouchableOpacity> */}
-                    
                     <Animated.View style={{
                         width: 36,
                         height: 36,
                         position: 'absolute',
-                        top: '35%', 
+                        top: '38%', 
                         right: 0,
                         zIndex: 2,
                         transform: [{
@@ -249,7 +237,7 @@ const QuickControl = props => {
                         width: 36,
                         height: 36,
                         position: 'absolute',
-                        top: '35%', 
+                        top: '34%', 
                         right: 0,
                         zIndex: 2,
                         transform: [{
@@ -286,8 +274,8 @@ const QuickControl = props => {
                     <Animated.View style={{
                         width: 36,
                         height: 36,
-                        position: 'absolute',
-                        top: '35%', 
+                        position: 'absolute', 
+                        top: '30%',
                         right: 0,
                         zIndex: 2,
                         transform: [{
@@ -332,7 +320,6 @@ const QuickControl = props => {
                     <TouchableOpacity
                         style = {{ 
                             position: 'absolute',
-                            top: '5%', 
                             right: 0,
                             width: '100%',
                             height: '100%',
